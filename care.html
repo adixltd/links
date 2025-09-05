@@ -1,26 +1,213 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Adix Care</title>
 
     <link rel="manifest" href="manifest.json">
-
-    <meta name="theme-color" content="#000000">
-
     <link rel="apple-touch-icon" href="icon.png">
     <link rel="icon" href="icon.png">
-
-    <meta http-equiv="refresh" content="1; url=https://script.google.com/macros/s/AKfycbw8tcqSQEoUaPUK6ubiES29sAfmjh5tfks3a04VOYb5tXXNxBw36r4AwB0HawIFG96n0A/exec" />
+    <meta name="theme-color" content="#ffffff">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Adix Care">
 
     <style>
-      body { font-family: sans-serif; text-align: center; padding-top: 50px; }
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+        :root {
+            --primary-color: #007aff; /* Feel free to change this brand color */
+            --primary-hover-color: #0056b3;
+            --background-color: #f0f2f5;
+            --card-background: #ffffff;
+            --text-color: #1c1c1e;
+            --subtle-text-color: #636366;
+            --border-color: #e5e5ea;
+        }
+
+        body {
+            margin: 0;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .container {
+            background-color: var(--card-background);
+            border-radius: 18px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            text-align: center;
+            padding: 40px;
+            max-width: 480px;
+            width: 100%;
+            border: 1px solid var(--border-color);
+        }
+
+        .logo {
+            width: 60px;
+            height: 60px;
+            margin-bottom: 20px;
+            border-radius: 12px;
+        }
+
+        h1 {
+            font-size: 1.8em;
+            font-weight: 700;
+            margin: 0 0 8px 0;
+        }
+
+        .subtitle {
+            color: var(--subtle-text-color);
+            font-size: 1.05em;
+            margin-bottom: 35px;
+            line-height: 1.5;
+        }
+
+        .button-group {
+            display: grid;
+            gap: 12px;
+            margin-bottom: 35px;
+        }
+        
+        .btn {
+            display: block;
+            width: 100%;
+            padding: 16px 20px;
+            border: none;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            box-sizing: border-box;
+        }
+
+        .btn-primary {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--primary-hover-color);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(0, 122, 255, 0.2);
+        }
+        
+        .btn-secondary {
+            background-color: #eef5ff;
+            color: var(--primary-color);
+        }
+        
+        .btn-secondary:hover {
+            background-color: #dbe9ff;
+            transform: translateY(-2px);
+        }
+
+        .hidden {
+            display: none;
+        }
+        
+        /* Expandable Instructions */
+        .instructions-container {
+            border-top: 1px solid var(--border-color);
+            padding-top: 25px;
+            text-align: left;
+        }
+
+        details {
+            background-color: #f8f9fa;
+            border-radius: 10px;
+            border: 1px solid var(--border-color);
+            margin-bottom: 10px;
+            overflow: hidden;
+        }
+        
+        summary {
+            padding: 15px 20px;
+            font-weight: 500;
+            cursor: pointer;
+            list-style: none;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
     </style>
-  </head>
-  <body>
-    <h1>Welcome to Adix Care</h1>
-    <p>One app to Register & Track complaints, Check Warranty, Manage AMC </p>
-  </body>
+</head>
+<body>
+
+    <div class="container">
+        <img src="icon.png" alt="Adix Care Logo" class="logo">
+        
+        <h1>Welcome to Adix Care</h1>
+        <p class="subtitle">Register & Track complaints, Check Warranty, and Manage your AMC.</p>
+
+        <div class="button-group">
+            <button id="installBtn" class="btn btn-secondary hidden">
+                ⬇️ Install Adix Care
+            </button>
+            
+            <button id="proceedBtn" class="btn btn-primary">
+                Access Your Portal →
+            </button>
+        </div>
+
+        <div class="instructions-container">
+            <details>
+                <summary>How to Add to Home Screen</summary>
+                <div class="instruction-content" style="padding: 0 20px 20px 20px; color: var(--subtle-text-color); line-height: 1.6; font-size: 0.95em;">
+                    <p><strong>For iPhone:</strong> Tap the 'Share' icon, then 'Add to Home Screen'.<br><strong>For Android:</strong> Tap the 'three-dot menu', then 'Install App'.</p>
+                </div>
+            </details>
+        </div>
+    </div>
+
+    <script>
+        // --- Service Worker Registration ---
+        if ('serviceWorker' in navigator) {
+          window.addEventListener('load', () => {
+            navigator.serviceWorker.register('./sw.js');
+          });
+        }
+        
+        // --- NEW Customer Redirect URL ---
+        const redirectUrl = "https://script.google.com/macros/s/AKfycbw8tcqSQEoUaPUK6ubiES29sAfmjh5tfks3a04VOYb5tXXNxBw36r4AwB0HawIFG96n0A/exec";
+
+        // --- Auto-redirect if launched as an app ---
+        if (window.matchMedia('(display-mode: standalone)').matches) {
+            window.location.href = redirectUrl;
+        }
+
+        const proceedButton = document.getElementById('proceedBtn');
+        const installButton = document.getElementById('installBtn');
+        let deferredPrompt;
+
+        // --- PWA Install Button Logic ---
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+            installButton.classList.remove('hidden');
+        });
+
+        installButton.addEventListener('click', async () => {
+            if (deferredPrompt) {
+                deferredPrompt.prompt();
+                installButton.classList.add('hidden');
+                deferredPrompt = null;
+            }
+        });
+        
+        // --- Proceed Button Click Logic ---
+        proceedButton.addEventListener('click', () => {
+            window.location.href = redirectUrl;
+        });
+    </script>
+
+</body>
 </html>
