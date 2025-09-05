@@ -7,17 +7,20 @@
 
     <!-- PWA basics -->
     <link rel="manifest" href="manifest.json" />
-    <meta name="theme-color" content="#0d6efd" />
+    <meta name="theme-color" content="#0B59B5" />
     <link rel="apple-touch-icon" href="icon.png" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-title" content="Adix" />
 
-    <!-- Icons for the guide -->
+    <!-- Icons -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
 
     <style>
+      /* Brand colors tuned to match the Adix logo */
       :root{
-        --brand:#0d6efd; --bg:#fbfdff; --card:#ffffff; --text:#1f2937;
+        --brand:#0B59B5;           /* Adix blue */
+        --brand-ink:#0A3F86;       /* darker blue for shadow/hover */
+        --bg:#fbfdff; --card:#ffffff; --text:#1f2937;
         --muted:#6b7280; --border:#ecf0ff; --soft:#f6f8ff;
       }
       [data-theme="dark"]{
@@ -33,17 +36,19 @@
       .shell{width:100%; max-width:560px}
       .card{
         background:var(--card); border:1px solid var(--border); border-radius:20px;
-        box-shadow:0 10px 30px rgba(13,110,253,.08); padding:24px;
+        box-shadow:0 10px 30px rgba(11,89,181,.12); padding:24px;
+      }
+      .topbar{position:relative; height:0}
+      .mode-btn{
+        position:absolute; right:8px; top:6px; border:1px solid var(--border); background:var(--soft);
+        padding:8px 12px; border-radius:999px; display:inline-flex; gap:8px; align-items:center;
+        color:var(--muted); font-weight:600; cursor:pointer
       }
 
       /* Header: centered logo + title */
       .header{display:flex; flex-direction:column; align-items:center; gap:10px; margin-top:6px}
       .logo{width:68px; height:68px; border-radius:16px; object-fit:contain; background:#fff; border:1px solid var(--border)}
-      .title{font-weight:800; font-size:1.25rem}
-      .mode-btn{
-        position:absolute; right:18px; top:18px; border:1px solid var(--border); background:var(--soft);
-        padding:8px 12px; border-radius:999px; display:inline-flex; gap:8px; align-items:center; color:var(--muted); font-weight:600; cursor:pointer
-      }
+      .title{font-weight:800; font-size:1.25rem; text-align:center}
 
       /* Body */
       .main{margin-top:18px; text-align:center}
@@ -54,9 +59,15 @@
         border:none; border-radius:12px; padding:12px 18px; font-weight:800; cursor:pointer;
         display:inline-flex; gap:10px; align-items:center; transition:transform .06s ease, box-shadow .2s ease;
       }
-      .btn-primary{background:var(--brand); color:#fff; box-shadow:0 6px 16px rgba(13,110,253,.28)}
+      .btn-primary{
+        background:linear-gradient(0deg, var(--brand) 0%, var(--brand) 100%);
+        color:#fff; box-shadow:0 6px 14px rgba(11,89,181,.35)
+      }
       .btn-primary:hover{transform:translateY(-1px)}
-      .btn-row{display:flex; justify-content:center; margin-top:8px}
+      .btn-outline{
+        border:1px solid rgba(11,89,181,.35); background:transparent; color:var(--brand);
+      }
+      .btn-row{display:flex; gap:10px; justify-content:center; margin-top:8px; flex-wrap:wrap}
 
       /* Collapsible guide (bottom) */
       .guide{margin-top:18px; border-top:1px solid var(--border); padding-top:14px}
@@ -66,11 +77,9 @@
       .steps{margin:10px 0 2px; padding-left:18px; color:var(--text)}
       .muted{color:var(--muted); font-size:.9rem; margin-top:10px; text-align:center}
       .install-btn{
-        margin-top:10px; border:1px solid rgba(13,110,253,.35); background:transparent; color:var(--brand);
-        border-radius:10px; padding:10px 14px; font-weight:700; display:none; /* show via JS if available */
+        margin-top:10px; border:1px solid rgba(11,89,181,.35); background:transparent; color:var(--brand);
+        border-radius:10px; padding:10px 14px; font-weight:700; display:inline-flex; align-items:center; gap:8px;
       }
-      /* tiny utility */
-      .topbar{position:relative; height:0}
     </style>
   </head>
   <body>
@@ -94,9 +103,14 @@
           <div class="headline">Ready to continue?</div>
           <p class="sub">Tap <strong>Proceed</strong> to open the staff app. You can also add it to your home screen later.</p>
           <div class="btn-row">
+            <!-- Open in the default browser/tab -->
             <a id="proceedLink" class="btn btn-primary" href="#" target="_self" rel="noopener">
               <i class="bi bi-arrow-right-circle-fill"></i> Proceed to App
             </a>
+            <!-- Install is always visible; if install prompt is unavailable, it opens the instructions -->
+            <button id="installBtn" class="btn btn-outline" type="button">
+              <i class="bi bi-plus-circle"></i> Install App
+            </button>
           </div>
         </div>
 
@@ -117,9 +131,6 @@
                 <li>Tap the <strong>Share</strong> button <i class="bi bi-box-arrow-up"></i>.</li>
                 <li>Select <strong>Add to Home Screen</strong>, then tap <strong>Add</strong>.</li>
               </ol>
-              <button id="installBtn" class="install-btn" type="button">
-                <i class="bi bi-plus-circle"></i> Install App (if available)
-              </button>
             </div>
           </details>
           <div class="muted">After installing, launch from the home screen icon for a full-screen app experience.</div>
@@ -128,49 +139,61 @@
     </div>
 
     <script>
-      // Settings
-      const APP_URL = "https://script.google.com/macros/s/AKfycbw8tcqSQEoUaPUK6ubiES29sAfmjh5tfks3a04VOYb5tXXNxBw36r4AwB0HawIFG96n0A/exec?app=staff";
+      // -----------------------------
+      // Configuration
+      // -----------------------------
+      const APP_URL =
+        "https://script.google.com/macros/s/AKfycbw8tcqSQEoUaPUK6ubiES29sAfmjh5tfks3a04VOYb5tXXNxBw36r4AwB0HawIFG96n0A/exec?app=staff";
 
-      // Proceed (no auto-redirect on landing)
+      // Proceed — navigate in current tab (i.e., the user's default browser/tab)
       document.getElementById("proceedLink").addEventListener("click", (e) => {
         e.preventDefault();
-        window.location.replace(APP_URL);
+        // Use assign() instead of replace() so back button returns to this page if needed:
+        window.location.assign(APP_URL);
       });
 
       // Theme toggle (default LIGHT)
-      const KEY = "adix-theme";
+      const THEME_KEY = "adix-theme";
       const modeBtn = document.getElementById("modeBtn");
       function applyTheme(t){
         document.documentElement.setAttribute("data-theme", t);
         modeBtn.querySelector("span").textContent = t === "dark" ? "Dark" : "Light";
         modeBtn.querySelector("i").className = t === "dark" ? "bi bi-moon-stars-fill" : "bi bi-brightness-high-fill";
       }
-      applyTheme(localStorage.getItem(KEY) || "light");
+      applyTheme(localStorage.getItem(THEME_KEY) || "light");
       modeBtn.addEventListener("click", () => {
         const next = (document.documentElement.getAttribute("data-theme") === "dark") ? "light" : "dark";
-        localStorage.setItem(KEY, next);
+        localStorage.setItem(THEME_KEY, next);
         applyTheme(next);
       });
 
-      // Optional: service worker (improves installability)
+      // Service worker (helps installability)
       if ("serviceWorker" in navigator) {
         navigator.serviceWorker.register("sw.js").catch(()=>{});
       }
 
-      // Show "Install App" button only if Chrome allows it
+      // Install button logic:
+      // - If Chrome fires 'beforeinstallprompt', clicking Install shows the native install prompt.
+      // - Otherwise (iOS or unsupported), clicking Install opens the instructions section.
       let deferredPrompt = null;
       const installBtn = document.getElementById("installBtn");
+      const installGuide = document.getElementById("installGuide");
+
       window.addEventListener("beforeinstallprompt", (e) => {
         e.preventDefault();
-        deferredPrompt = e;
-        installBtn.style.display = "inline-flex"; // reveal inside the details
+        deferredPrompt = e; // stash the event so we can trigger it later
       });
+
       installBtn.addEventListener("click", async () => {
-        if (!deferredPrompt) return;
-        deferredPrompt.prompt();
-        await deferredPrompt.userChoice;
-        deferredPrompt = null;
-        installBtn.style.display = "none";
+        if (deferredPrompt) {
+          deferredPrompt.prompt();
+          try { await deferredPrompt.userChoice; } catch(_) {}
+          deferredPrompt = null;
+        } else {
+          // Fallback: open the instructions panel
+          installGuide.open = true;
+          installGuide.scrollIntoView({ behavior: "smooth", block: "start" });
+        }
       });
     </script>
   </body>
