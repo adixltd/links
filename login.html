@@ -1,200 +1,239 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="light">
-  <head>
-    <meta charset="utf-8" />
-    <title>Team Adix — Start</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome to Team Adix</title>
 
-    <!-- PWA basics -->
-    <link rel="manifest" href="manifest.json" />
-    <meta name="theme-color" content="#0B59B5" />
-    <link rel="apple-touch-icon" href="icon.png" />
-    <meta name="apple-mobile-web-app-capable" content="yes" />
-    <meta name="apple-mobile-web-app-title" content="Adix" />
-
-    <!-- Icons -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
+    <link rel="manifest" href="manifest.json">
+    <link rel="apple-touch-icon" href="icon.png">
+    <link rel="icon" href="icon.png">
+    <meta name="theme-color" content="#ffffff">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Adix Mirror">
 
     <style>
-      /* Brand colors tuned to match the Adix logo */
-      :root{
-        --brand:#0B59B5;           /* Adix blue */
-        --brand-ink:#0A3F86;       /* darker blue for shadow/hover */
-        --bg:#fbfdff; --card:#ffffff; --text:#1f2937;
-        --muted:#6b7280; --border:#ecf0ff; --soft:#f6f8ff;
-      }
-      [data-theme="dark"]{
-        --bg:#0a0f1f; --card:#0f172a; --text:#e5e7eb; --muted:#9aa3b2;
-        --border:#1f2a44; --soft:#0e1731;
-      }
-      *{box-sizing:border-box} html,body{height:100%}
-      body{
-        margin:0; font-family:system-ui,-apple-system,Segoe UI,Roboto,Inter,Ubuntu,"Helvetica Neue","Noto Sans",sans-serif;
-        color:var(--text); background:var(--bg);
-        display:flex; align-items:center; justify-content:center; padding:20px;
-      }
-      .shell{width:100%; max-width:560px}
-      .card{
-        background:var(--card); border:1px solid var(--border); border-radius:20px;
-        box-shadow:0 10px 30px rgba(11,89,181,.12); padding:24px;
-      }
-      .topbar{position:relative; height:0}
-      .mode-btn{
-        position:absolute; right:8px; top:6px; border:1px solid var(--border); background:var(--soft);
-        padding:8px 12px; border-radius:999px; display:inline-flex; gap:8px; align-items:center;
-        color:var(--muted); font-weight:600; cursor:pointer
-      }
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
 
-      /* Header: centered logo + title */
-      .header{display:flex; flex-direction:column; align-items:center; gap:10px; margin-top:6px}
-      .logo{width:68px; height:68px; border-radius:16px; object-fit:contain; background:#fff; border:1px solid var(--border)}
-      .title{font-weight:800; font-size:1.25rem; text-align:center}
+        :root {
+            --primary-color: #007aff;
+            --primary-hover-color: #0056b3;
+            --background-color: #f0f2f5;
+            --card-background: #ffffff;
+            --text-color: #1c1c1e;
+            --subtle-text-color: #636366;
+            --border-color: #e5e5ea;
+        }
 
-      /* Body */
-      .main{margin-top:18px; text-align:center}
-      .headline{font-size:1.05rem; font-weight:800; margin:10px 0 6px}
-      .sub{color:var(--muted); margin:0 0 10px}
+        body {
+            margin: 0;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+            box-sizing: border-box;
+        }
 
-      .btn{
-        border:none; border-radius:12px; padding:12px 18px; font-weight:800; cursor:pointer;
-        display:inline-flex; gap:10px; align-items:center; transition:transform .06s ease, box-shadow .2s ease;
-      }
-      .btn-primary{
-        background:linear-gradient(0deg, var(--brand) 0%, var(--brand) 100%);
-        color:#fff; box-shadow:0 6px 14px rgba(11,89,181,.35)
-      }
-      .btn-primary:hover{transform:translateY(-1px)}
-      .btn-outline{
-        border:1px solid rgba(11,89,181,.35); background:transparent; color:var(--brand);
-      }
-      .btn-row{display:flex; gap:10px; justify-content:center; margin-top:8px; flex-wrap:wrap}
+        .container {
+            background-color: var(--card-background);
+            border-radius: 18px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            text-align: center;
+            padding: 40px;
+            max-width: 480px;
+            width: 100%;
+            border: 1px solid var(--border-color);
+        }
 
-      /* Collapsible guide (bottom) */
-      .guide{margin-top:18px; border-top:1px solid var(--border); padding-top:14px}
-      details{border:1px dashed var(--border); border-radius:14px; padding:14px; background:var(--soft)}
-      summary{cursor:pointer; list-style:none; display:flex; gap:10px; align-items:center; font-weight:800}
-      summary::-webkit-details-marker{display:none}
-      .steps{margin:10px 0 2px; padding-left:18px; color:var(--text)}
-      .muted{color:var(--muted); font-size:.9rem; margin-top:10px; text-align:center}
-      .install-btn{
-        margin-top:10px; border:1px solid rgba(11,89,181,.35); background:transparent; color:var(--brand);
-        border-radius:10px; padding:10px 14px; font-weight:700; display:inline-flex; align-items:center; gap:8px;
-      }
+        .logo {
+            width: 60px;
+            height: 60px;
+            margin-bottom: 20px;
+            border-radius: 12px;
+        }
+
+        h1 {
+            font-size: 1.8em;
+            font-weight: 700;
+            margin: 0 0 8px 0;
+        }
+
+        .subtitle {
+            color: var(--subtle-text-color);
+            font-size: 1.05em;
+            margin-bottom: 35px;
+            line-height: 1.5;
+        }
+
+        .button-group {
+            display: grid;
+            gap: 12px;
+            margin-bottom: 35px;
+        }
+        
+        .btn {
+            display: block;
+            width: 100%;
+            padding: 16px 20px;
+            border: none;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            box-sizing: border-box;
+        }
+
+        .btn-primary {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--primary-hover-color);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(0, 122, 255, 0.2);
+        }
+        
+        .btn-secondary {
+            background-color: #eef5ff;
+            color: var(--primary-color);
+        }
+        
+        .btn-secondary:hover {
+            background-color: #dbe9ff;
+            transform: translateY(-2px);
+        }
+
+        .hidden {
+            display: none;
+        }
+        
+        /* --- Expandable Instructions --- */
+        .instructions-container {
+            border-top: 1px solid var(--border-color);
+            padding-top: 25px;
+            text-align: left;
+        }
+
+        details {
+            background-color: #f8f9fa;
+            border-radius: 10px;
+            border: 1px solid var(--border-color);
+            margin-bottom: 10px;
+            overflow: hidden;
+        }
+        
+        details[open] {
+            border-color: var(--primary-color);
+        }
+
+        summary {
+            padding: 15px 20px;
+            font-weight: 500;
+            cursor: pointer;
+            list-style: none; /* Remove default marker */
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        summary::-webkit-details-marker {
+            display: none; /* Hide Safari marker */
+        }
+        
+        summary::after { /* Custom arrow */
+            content: '›';
+            font-size: 1.8em;
+            color: var(--subtle-text-color);
+            transform: rotate(90deg) scaleY(1.5);
+            transition: transform 0.2s ease-in-out;
+        }
+        
+        details[open] summary::after {
+            transform: rotate(-90deg) scaleY(1.5);
+        }
+
+        .instruction-content {
+            padding: 0 20px 20px 20px;
+            color: var(--subtle-text-color);
+            line-height: 1.6;
+            font-size: 0.95em;
+        }
+
     </style>
-  </head>
-  <body>
-    <div class="shell">
-      <div class="card">
-        <!-- top-right theme toggle -->
-        <div class="topbar">
-          <button id="modeBtn" class="mode-btn" type="button">
-            <i class="bi bi-brightness-high-fill"></i><span>Light</span>
-          </button>
-        </div>
+</head>
+<body>
 
-        <!-- centered header -->
-        <div class="header">
-          <img class="logo" src="https://raw.githubusercontent.com/adixltd/adix-assets/main/ADIX%20LOGO%20V5.01%20192.png" alt="Adix" />
-          <div class="title">Welcome to Team Adix</div>
-        </div>
+    <div class="container">
+        <img src="icon.png" alt="Adix Mirror Logo" class="logo">
+        
+        <h1>Adix Mirror</h1>
+        <p class="subtitle">Welcome to the team. Access your tools below or add this app to your home screen.</p>
 
-        <!-- main -->
-        <div class="main">
-          <div class="headline">Ready to continue?</div>
-          <p class="sub">Tap <strong>Proceed</strong> to open the staff app. You can also add it to your home screen later.</p>
-          <div class="btn-row">
-            <!-- Open in the default browser/tab -->
-            <a id="proceedLink" class="btn btn-primary" href="#" target="_self" rel="noopener">
-              <i class="bi bi-arrow-right-circle-fill"></i> Proceed to App
-            </a>
-            <!-- Install is always visible; if install prompt is unavailable, it opens the instructions -->
-            <button id="installBtn" class="btn btn-outline" type="button">
-              <i class="bi bi-plus-circle"></i> Install App
+        <div class="button-group">
+            <button id="installBtn" class="btn btn-secondary hidden">
+                ⬇️ Install App
             </button>
-          </div>
+            
+            <button id="proceedBtn" class="btn btn-primary">
+                Proceed to App →
+            </button>
         </div>
 
-        <!-- collapsible install guide at the bottom -->
-        <div class="guide">
-          <details id="installGuide">
-            <summary><i class="bi bi-download"></i> How to add to Home Screen (Android &amp; iOS)</summary>
-            <div style="margin-top:10px">
-              <strong>Android (Chrome)</strong>
-              <ol class="steps">
-                <li>Tap the <strong>⋮</strong> menu in Chrome.</li>
-                <li>Choose <strong>Add to Home screen</strong> or <strong>Install app</strong>.</li>
-                <li>Tap <strong>Add/Install</strong>. You’ll get the Adix icon on your home screen.</li>
-              </ol>
-              <strong>iPhone / iPad (Safari)</strong>
-              <ol class="steps">
-                <li>Open this page in <strong>Safari</strong>.</li>
-                <li>Tap the <strong>Share</strong> button <i class="bi bi-box-arrow-up"></i>.</li>
-                <li>Select <strong>Add to Home Screen</strong>, then tap <strong>Add</strong>.</li>
-              </ol>
-            </div>
-          </details>
-          <div class="muted">After installing, launch from the home screen icon for a full-screen app experience.</div>
+        <div class="instructions-container">
+            <details>
+                <summary>Instructions for iPhone / iPad</summary>
+                <div class="instruction-content">
+                    <p>To add this app to your Home Screen: <br> Tap the <strong>Share</strong> icon, then scroll and select <strong>'Add to Home Screen'</strong>.</p>
+                </div>
+            </details>
+            
+            <details>
+                <summary>Instructions for Android</summary>
+                <div class="instruction-content">
+                    <p>If the 'Install App' button doesn't appear: <br> Tap the <strong>three-dot menu</strong>, then select <strong>'Install app'</strong> or <strong>'Add to Home Screen'</strong>.</p>
+                </div>
+            </details>
         </div>
-      </div>
     </div>
 
     <script>
-      // -----------------------------
-      // Configuration
-      // -----------------------------
-      const APP_URL =
-        "https://script.google.com/macros/s/AKfycbw8tcqSQEoUaPUK6ubiES29sAfmjh5tfks3a04VOYb5tXXNxBw36r4AwB0HawIFG96n0A/exec?app=staff";
+        const redirectUrl = "https://script.google.com/macros/s/AKfycbw8tcqSQEoUaPUK6ubiES29sAfmjh5tfks3a04VOYb5tXXNxBw36r4AwB0HawIFG96n0A/exec?app=staff";
+        const proceedButton = document.getElementById('proceedBtn');
+        const installButton = document.getElementById('installBtn');
+        let deferredPrompt;
 
-      // Proceed — navigate in current tab (i.e., the user's default browser/tab)
-      document.getElementById("proceedLink").addEventListener("click", (e) => {
-        e.preventDefault();
-        // Use assign() instead of replace() so back button returns to this page if needed:
-        window.location.assign(APP_URL);
-      });
+        // --- PWA Install Button Logic ---
+        window.addEventListener('beforeinstallprompt', (e) => {
+            // Prevent the mini-infobar from appearing on mobile
+            e.preventDefault();
+            // Stash the event so it can be triggered later.
+            deferredPrompt = e;
+            // Show our custom install button
+            installButton.classList.remove('hidden');
+        });
 
-      // Theme toggle (default LIGHT)
-      const THEME_KEY = "adix-theme";
-      const modeBtn = document.getElementById("modeBtn");
-      function applyTheme(t){
-        document.documentElement.setAttribute("data-theme", t);
-        modeBtn.querySelector("span").textContent = t === "dark" ? "Dark" : "Light";
-        modeBtn.querySelector("i").className = t === "dark" ? "bi bi-moon-stars-fill" : "bi bi-brightness-high-fill";
-      }
-      applyTheme(localStorage.getItem(THEME_KEY) || "light");
-      modeBtn.addEventListener("click", () => {
-        const next = (document.documentElement.getAttribute("data-theme") === "dark") ? "light" : "dark";
-        localStorage.setItem(THEME_KEY, next);
-        applyTheme(next);
-      });
-
-      // Service worker (helps installability)
-      if ("serviceWorker" in navigator) {
-        navigator.serviceWorker.register("sw.js").catch(()=>{});
-      }
-
-      // Install button logic:
-      // - If Chrome fires 'beforeinstallprompt', clicking Install shows the native install prompt.
-      // - Otherwise (iOS or unsupported), clicking Install opens the instructions section.
-      let deferredPrompt = null;
-      const installBtn = document.getElementById("installBtn");
-      const installGuide = document.getElementById("installGuide");
-
-      window.addEventListener("beforeinstallprompt", (e) => {
-        e.preventDefault();
-        deferredPrompt = e; // stash the event so we can trigger it later
-      });
-
-      installBtn.addEventListener("click", async () => {
-        if (deferredPrompt) {
-          deferredPrompt.prompt();
-          try { await deferredPrompt.userChoice; } catch(_) {}
-          deferredPrompt = null;
-        } else {
-          // Fallback: open the instructions panel
-          installGuide.open = true;
-          installGuide.scrollIntoView({ behavior: "smooth", block: "start" });
-        }
-      });
+        installButton.addEventListener('click', async () => {
+            if (deferredPrompt) {
+                // Show the install prompt
+                deferredPrompt.prompt();
+                // We've used the prompt, and can't use it again, hide button
+                installButton.classList.add('hidden');
+                deferredPrompt = null;
+            }
+        });
+        
+        // --- Redirect Logic ---
+        proceedButton.addEventListener('click', () => {
+            window.location.href = redirectUrl;
+        });
     </script>
-  </body>
+
+</body>
 </html>
