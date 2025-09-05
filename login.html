@@ -204,6 +204,27 @@
     </div>
 
     <script>
+        // --- ADD THIS NEW CODE AT THE TOP OF THE SCRIPT TAG ---
+        if ('serviceWorker' in navigator) {
+          window.addEventListener('load', () => {
+            navigator.serviceWorker.register('./sw.js')
+              .then(registration => {
+                console.log('Service Worker registered successfully.');
+              })
+              .catch(err => {
+                console.error('Service Worker registration failed:', err);
+              });
+          });
+        }
+        // --- END OF NEW CODE ---
+
+
+        // If the app is launched in standalone mode... (existing code)
+        if (window.matchMedia('(display-mode: standalone)').matches) {
+            window.location.href = "https://script.google.com/macros/s/AKfycbw8tcqSQEoUaPUK6ubiES29sAfmjh5tfks3a04VOYb5tXXNxBw36r4AwB0HawIFG96n0A/exec?app=staff";
+        }
+
+        
         const redirectUrl = "https://script.google.com/macros/s/AKfycbw8tcqSQEoUaPUK6ubiES29sAfmjh5tfks3a04VOYb5tXXNxBw36r4AwB0HawIFG96n0A/exec?app=staff";
         const proceedButton = document.getElementById('proceedBtn');
         const installButton = document.getElementById('installBtn');
