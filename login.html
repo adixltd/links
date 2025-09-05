@@ -1,178 +1,246 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Welcome to Team Adix</title>
-    
-    <link rel="manifest" href="manifest.json">
-    <link rel="apple-touch-icon" href="icon.png">
-    <link rel="icon" href="icon.png">
-    <meta name="theme-color" content="#0056b3">
+  <head>
+    <meta charset="utf-8" />
+    <title>Team Adix — Start</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <!-- PWA basics (you already have manifest.json & icon.png) -->
+    <link rel="manifest" href="manifest.json" />
+    <meta name="theme-color" content="#0d6efd" />
+    <link rel="apple-touch-icon" href="icon.png" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-title" content="Team Adix" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+
+    <!-- Fonts & Icons -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
 
     <style>
-        /* --- Basic Setup & Fonts --- */
-        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
-
-        body {
-            margin: 0;
-            font-family: 'Roboto', sans-serif;
-            background-color: #f4f7f9;
-            color: #333;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            padding: 20px;
-            box-sizing: border-box;
+      :root{
+        --brand:#0d6efd;           /* Adix primary (bootstrap blue) */
+        --bg-grad-1:#f3f6ff;
+        --bg-grad-2:#eef2ff;
+        --card-bg:#ffffff;
+        --text:#1f2937;
+        --muted:#6b7280;
+      }
+      *{box-sizing:border-box}
+      html,body{height:100%}
+      body{
+        margin:0;
+        font-family:"Inter",system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,"Helvetica Neue","Noto Sans",sans-serif;
+        color:var(--text);
+        background: radial-gradient(1200px 800px at 20% 10%, var(--bg-grad-1), transparent 60%),
+                    radial-gradient(1200px 800px at 80% 0%, var(--bg-grad-2), transparent 60%),
+                    #fbfdff;
+        display:flex;
+        align-items:center;
+        justify-content:center;
+        padding:24px;
+      }
+      .shell{
+        width:100%;
+        max-width:780px;
+      }
+      .card{
+        background:var(--card-bg);
+        border-radius:20px;
+        box-shadow:0 10px 30px rgba(13,110,253,.08);
+        overflow:hidden;
+        border:1px solid #eef2ff;
+      }
+      .hero{
+        padding:28px 28px 0 28px;
+        display:flex;
+        gap:24px;
+        align-items:center;
+        flex-wrap:wrap;
+        justify-content:center;
+      }
+      .brand{
+        display:flex;
+        align-items:center;
+        gap:14px;
+      }
+      .brand img{
+        width:56px;height:56px;border-radius:14px;object-fit:contain;background:#fff;border:1px solid #eef2ff
+      }
+      .brand .t1{font-weight:700;letter-spacing:.2px}
+      .brand .t2{color:var(--muted);font-size:.9rem;margin-top:2px}
+      .cta{
+        padding:0 28px 28px 28px;
+        display:grid;gap:16px;grid-template-columns:1fr;justify-items:center;text-align:center
+      }
+      .cta .headline{font-size:1.25rem;font-weight:700;margin:6px 0 0}
+      .cta .sub{color:var(--muted);font-size:.95rem;line-height:1.5}
+      .btn{
+        border:none;border-radius:12px;padding:12px 18px;font-weight:600;cursor:pointer;
+        transition:transform .06s ease, box-shadow .2s ease; display:inline-flex; align-items:center; gap:10px;
+      }
+      .btn-primary{background:var(--brand);color:#fff;box-shadow:0 6px 16px rgba(13,110,253,.28)}
+      .btn-primary:hover{transform:translateY(-1px)}
+      .btn-outline{background:#fff;color:var(--brand);border:1px solid rgba(13,110,253,.3)}
+      .btn-row{display:flex;gap:12px;flex-wrap:wrap;justify-content:center;margin-top:6px}
+      .divider{height:1px;background:#eef1f6;margin:2px 0 0}
+      .guide{
+        padding:22px 24px 26px 24px;
+        display:grid;gap:14px
+      }
+      details{
+        border:1px solid #ecf0ff;border-radius:14px;padding:14px;background:#fafbff
+      }
+      summary{
+        cursor:pointer;list-style:none;display:flex;align-items:center;gap:10px;font-weight:600
+      }
+      summary::-webkit-details-marker{display:none}
+      .steps{margin:10px 0 2px 0;padding-left:18px;color:#374151}
+      .steps li{margin:.35rem 0}
+      .pill{
+        display:inline-flex;align-items:center;gap:8px;border:1px dashed #d7defa;color:#465580;
+        padding:6px 10px;border-radius:999px;background:#f6f8ff;font-size:.85rem
+      }
+      .footnote{color:var(--muted);font-size:.85rem;text-align:center;margin:2px 0 4px}
+      .hint{color:#64748b;font-size:.85rem}
+      .small-logo{width:20px;height:20px;border-radius:4px;object-fit:contain;background:#fff}
+      .kbd{
+        display:inline-block;padding:2px 6px;border-radius:6px;border:1px solid #cbd5e1;background:#fff;font-size:.85em
+      }
+      @media (prefers-color-scheme: dark){
+        :root{
+          --bg-grad-1:#0b1224; --bg-grad-2:#0b142a; --card-bg:#0f172a; --text:#e5e7eb; --muted:#9aa3b2;
         }
-
-        /* --- Main Content Card --- */
-        .container {
-            background-color: #ffffff;
-            border-radius: 12px;
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
-            text-align: center;
-            padding: 40px;
-            max-width: 500px;
-            width: 100%;
-        }
-
-        h1 {
-            color: #1a237e; /* A deep, professional blue */
-            font-size: 2em;
-            margin-top: 0;
-            margin-bottom: 10px;
-        }
-
-        .subtitle {
-            color: #555;
-            font-size: 1.1em;
-            margin-bottom: 30px;
-        }
-
-        /* --- Proceed Button --- */
-        .proceed-btn {
-            display: block;
-            width: 100%;
-            background-color: #007bff; /* Bright, clear call-to-action color */
-            color: white;
-            padding: 15px 20px;
-            border: none;
-            border-radius: 8px;
-            font-size: 18px;
-            font-weight: 500;
-            cursor: pointer;
-            transition: background-color 0.3s ease, transform 0.2s ease;
-            margin-bottom: 30px;
-        }
-
-        .proceed-btn:hover {
-            background-color: #0056b3; /* Darker on hover */
-            transform: translateY(-2px);
-        }
-
-        /* --- Installation Instructions --- */
-        .instructions-header {
-            font-size: 1.1em;
-            color: #333;
-            margin-top: 20px;
-            margin-bottom: 20px;
-            border-top: 1px solid #e0e0e0;
-            padding-top: 30px;
-        }
-
-        .instructions-container {
-            display: flex;
-            gap: 20px;
-            text-align: left;
-        }
-
-        .instruction-card {
-            flex: 1;
-            background-color: #f9fafb;
-            border: 1px solid #e0e0e0;
-            border-radius: 8px;
-            padding: 20px;
-        }
-        
-        .instruction-card h3 {
-            margin-top: 0;
-            color: #1a237e;
-            font-size: 1.1em;
-            display: flex;
-            align-items: center;
-        }
-        
-        .instruction-card p {
-            font-size: 0.9em;
-            color: #666;
-            line-height: 1.5;
-        }
-
-        /* --- Icons for instructions --- */
-        .icon {
-            width: 20px;
-            height: 20px;
-            margin-right: 8px;
-        }
-
-        /* --- Responsive Design for Mobile --- */
-        @media (max-width: 600px) {
-            .instructions-container {
-                flex-direction: column;
-            }
-            .container {
-                padding: 30px 25px;
-            }
-            h1 {
-                font-size: 1.8em;
-            }
-        }
+        body{background:#0a0f1f}
+        .card{border-color:#1f2a44; box-shadow: 0 12px 40px rgba(0,0,0,.45)}
+        .divider{background:#1c253d}
+        details{background:#0c1428;border-color:#1f2a44}
+        .pill{border-color:#2b3a69;background:#0e1731;color:#b8c3d9}
+        .btn-outline{background:transparent;border-color:#3352a1}
+      }
     </style>
-</head>
-<body>
-
-    <div class="container">
-        <h1>Welcome to Team Adix</h1>
-        <p class="subtitle">Let's make ourselves better than yesterday...</p>
-
-        <button id="proceedBtn" class="proceed-btn">Proceed to App</button>
-
-        <h2 class="instructions-header">For a Better Experience, Add to Home Screen</h2>
-        
-        <div class="instructions-container">
-            <div class="instruction-card">
-                <h3>
-                    <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path d="M10.75 3.5a.75.75 0 00-1.5 0v8.614L6.295 9.24a.75.75 0 00-1.09 1.03l4.25 4.5a.75.75 0 001.09 0l4.25-4.5a.75.75 0 00-1.09-1.03l-2.955 2.874V3.5z"/><path d="M3.5 14a.5.5 0 01.5-.5h12a.5.5 0 010 1h-12a.5.5 0 01-.5-.5z"/></svg>
-                    iPhone / iPad
-                </h3>
-                <p>Tap the <strong>Share</strong> button, then scroll down and select <strong>'Add to Home Screen'</strong>.</p>
+  </head>
+  <body>
+    <div class="shell">
+      <div class="card">
+        <!-- HERO -->
+        <div class="hero">
+          <div class="brand">
+            <img src="https://raw.githubusercontent.com/adixltd/adix-assets/main/ADIX%20LOGO%20V5.01%20192.png" alt="Adix" />
+            <div>
+              <div class="t1">Team Adix</div>
+              <div class="t2">Fast access to your staff app</div>
             </div>
-
-            <div class="instruction-card">
-                <h3>
-                    <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path d="M10 3a1.5 1.5 0 110 3 1.5 1.5 0 010-3zM10 8.5a1.5 1.5 0 110 3 1.5 1.5 0 010-3zM11.5 15.5a1.5 1.5 0 10-3 0 1.5 1.5 0 003 0z" /></svg>
-                    Android
-                </h3>
-                <p>Tap the <strong>three-dot menu</strong> icon in your browser and select <strong>'Install app'</strong> or <strong>'Add to Home Screen'</strong>.</p>
-            </div>
+          </div>
+          <span class="pill">
+            <img class="small-logo" src="icon.png" alt="App Icon" />
+            Save to Home Screen for 1-tap access
+          </span>
         </div>
+
+        <!-- CTA -->
+        <div class="cta">
+          <div class="headline">Welcome! Ready to continue?</div>
+          <p class="sub">Tap <strong>Proceed</strong> to open the staff app. You can also install it on your home screen like a regular app.</p>
+          <div class="btn-row">
+            <button id="proceedBtn" class="btn btn-primary">
+              <i class="bi bi-arrow-right-circle-fill"></i> Proceed to App
+            </button>
+            <button id="installBtn" class="btn btn-outline" hidden>
+              <i class="bi bi-plus-circle"></i> Install App
+            </button>
+          </div>
+        </div>
+
+        <div class="divider"></div>
+
+        <!-- IN-APP GUIDE -->
+        <div class="guide">
+          <details id="androidGuide" open>
+            <summary><i class="bi bi-android2"></i> Add to Home Screen on <strong>Android (Chrome)</strong></summary>
+            <ol class="steps">
+              <li>Tap the <span class="kbd">⋮</span> menu (top-right) in Chrome.</li>
+              <li>Choose <strong>Add to Home screen</strong> or <strong>Install app</strong>.</li>
+              <li>Confirm by tapping <strong>Add</strong> / <strong>Install</strong>. You’ll get the Adix icon on your home screen.</li>
+            </ol>
+            <div class="hint"><i class="bi bi-lightbulb"></i> If you see the <strong>Install App</strong> button above, you can tap it for a one-tap install.</div>
+          </details>
+
+          <details id="iosGuide">
+            <summary><i class="bi bi-apple"></i> Add to Home Screen on <strong>iPhone / iPad (Safari)</strong></summary>
+            <ol class="steps">
+              <li>Open this page in <strong>Safari</strong>.</li>
+              <li>Tap the <strong>Share</strong> button <i class="bi bi-box-arrow-up"></i> (bottom bar on iPhone, top-right on iPad).</li>
+              <li>Scroll and choose <strong>Add to Home Screen</strong>.</li>
+              <li>Tap <strong>Add</strong>. You’ll see the Adix icon on your home screen.</li>
+            </ol>
+            <div class="hint"><i class="bi bi-info-circle"></i> iOS only shows “Add to Home Screen” from Safari (not Chrome/Edge).</div>
+          </details>
+
+          <p class="footnote">Tip: After installing, launch from the home screen icon for a full-screen app experience.</p>
+        </div>
+      </div>
     </div>
 
     <script>
-        // The URL your staff will be redirected to
-        const redirectUrl = "https://script.google.com/macros/s/AKfycbw8tcqSQEoUaPUK6ubiES29sAfmjh5tfks3a04VOYb5tXXNxBw36r4AwB0HawIFG96n0A/exec?app=staff";
+      // -----------------------------
+      // Settings
+      // -----------------------------
+      const APP_URL = "https://script.google.com/macros/s/AKfycbw8tcqSQEoUaPUK6ubiES29sAfmjh5tfks3a04VOYb5tXXNxBw36r4AwB0HawIFG96n0A/exec?app=staff";
 
-        // Find the button by its ID
-        const proceedButton = document.getElementById('proceedBtn');
+      // Proceed button
+      document.getElementById("proceedBtn").addEventListener("click", () => {
+        window.location.href = APP_URL;
+      });
 
-        // Add an event listener that triggers on click
-        proceedButton.addEventListener('click', function() {
-            // Redirect the user to the specified URL
-            window.location.href = redirectUrl;
-        });
+      // Optional: register a service worker for better A2HS support (if you have /sw.js)
+      if ("serviceWorker" in navigator) {
+        navigator.serviceWorker.register("sw.js").catch(() => { /* ignore */ });
+      }
+
+      // Chrome PWA Install flow (beforeinstallprompt)
+      let deferredPrompt = null;
+      const installBtn = document.getElementById("installBtn");
+
+      window.addEventListener("beforeinstallprompt", (e) => {
+        // Prevent auto-prompt
+        e.preventDefault();
+        deferredPrompt = e;
+        installBtn.hidden = false;
+      });
+
+      installBtn.addEventListener("click", async () => {
+        try {
+          if (!deferredPrompt) return;
+          deferredPrompt.prompt();
+          const { outcome } = await deferredPrompt.userChoice;
+          deferredPrompt = null;
+          // Hide button whether accepted or dismissed
+          installBtn.hidden = true;
+        } catch (_) {
+          // Ignore
+        }
+      });
+
+      // Platform-friendly defaults: open the most relevant guide by default
+      (function openRelevantGuide(){
+        const ua = navigator.userAgent || navigator.vendor || window.opera;
+        const isAndroid = /android/i.test(ua);
+        const isIOS = /iphone|ipad|ipod/i.test(ua);
+
+        const android = document.getElementById("androidGuide");
+        const ios = document.getElementById("iosGuide");
+
+        if (isAndroid) {
+          android.open = true;
+          ios.open = false;
+        } else if (isIOS) {
+          android.open = false;
+          ios.open = true;
+        }
+      })();
     </script>
-
-</body>
+  </body>
 </html>
