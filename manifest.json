@@ -2,7 +2,7 @@
   "name": "Adix Mirror Staff Portal",
   "short_name": "Adix Mirror",
   "description": "The official staff portal for Team Adix.",
-  "start_url": ".",
+  "start_url": "login.html",
   "display": "standalone",
   "background_color": "#f0f2f5",
   "theme_color": "#ffffff",
