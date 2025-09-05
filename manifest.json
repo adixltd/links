@@ -1,8 +1,8 @@
 {
-  "id": "/adix-landing",
+  "id": "/adix-v3",
   "name": "Team Adix",
   "short_name": "Adix",
-  "start_url": "index.html?go=1",
+  "start_url": "app-launcher.html",
   "scope": "./",
   "display": "standalone",
   "theme_color": "#0d6efd",
